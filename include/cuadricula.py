@@ -5,6 +5,7 @@ import config
 
 class Cuadricula:
     def __init__(self):
+        self.original_images = {}
         self.tiles_images = {}
         self.nivel_data = None
         self.matriz_tiles = {}
@@ -25,7 +26,7 @@ class Cuadricula:
                         try:
                             # Cargar la imagen original (el path es relativo a la ejecución del main script)
                             img = pygame.image.load(path).convert_alpha()
-                            self.tiles_images[key] = img
+                            self.original_images[key] = img
                         except Exception as e:
                             print(f"[ERROR] No se pudo cargar la imagen {path}: {e}")
         except Exception as e:
@@ -50,9 +51,8 @@ class Cuadricula:
         self.tile_width = config.SCREEN_SIZE[0] // self.num_x
         self.tile_height = config.SCREEN_SIZE[1] // self.num_y
         
-        # Escalar las imágenes cargadas a este nuevo tamaño
-        for key in self.tiles_images:
-            img = self.tiles_images[key]
+        # Escalar las imágenes originales a este nuevo tamaño
+        for key, img in self.original_images.items():
             self.tiles_images[key] = pygame.transform.scale(img, (self.tile_width, self.tile_height))
             
         # Parsear las posiciones (vienen en formato "x,y")
@@ -60,11 +60,34 @@ class Cuadricula:
         tiles_raw = level_data.get("tiles", {})
         for coord_str, tile_name in tiles_raw.items():
             if tile_name == "aire":
-                pass
-            elif tile_name in self.tiles_images:
+                continue
+            if tile_name in self.original_images:
                 try:
                     x, y = map(int, coord_str.split(','))
                     self.matriz_tiles[(x, y)] = tile_name
+                except ValueError:
+                    pass
+
+    def appendBottomLevel(self, level_data):
+        """Añade otro nivel en la parte inferior de la cuadrícula actual (ej. para un menú inferior)."""
+        offset_y = self.num_y
+        self.num_y += level_data.get("Cuadricula", {}).get("num_y", 0)
+        
+        # Recalcular escala con el nuevo tamaño
+        if self.num_y == 0: self.num_y = 1
+        self.tile_height = config.SCREEN_SIZE[1] // self.num_y
+        
+        for key, img in self.original_images.items():
+            self.tiles_images[key] = pygame.transform.scale(img, (self.tile_width, self.tile_height))
+            
+        tiles_raw = level_data.get("tiles", {})
+        for coord_str, tile_name in tiles_raw.items():
+            if tile_name == "aire":
+                continue
+            if tile_name in self.original_images:
+                try:
+                    x, y = map(int, coord_str.split(','))
+                    self.matriz_tiles[(x, y + offset_y)] = tile_name
                 except ValueError:
                     pass
 

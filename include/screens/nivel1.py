@@ -17,6 +17,14 @@ class Nivel1:
         
         if nivel:
             self.cuadricula.loadLevel(nivel.aDict())
+            
+            # Cargar y añadir el menú inferior (menuButton)
+            menu_level = nivel_manager.obtenerNivel("menuButton")
+            if menu_level:
+                self.cuadricula.appendBottomLevel(menu_level.aDict())
+            else:
+                print("[WARNING] No se encontró 'menuButton' en datosNiveles.json")
+                
             print(f"[Nivel 1] Nivel cargado exitosamente con {len(self.cuadricula.matriz_tiles)} tiles.")
             
             # Spawnear al jugador (posición x=100, y=100)

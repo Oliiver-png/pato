@@ -39,9 +39,9 @@ class Player(pygame.sprite.Sprite):
             img = pygame.transform.scale(img, (48, 48))
             self.animations['idle'].append(img)
             
-        # Cargar caminar (1.png a 8.png)
-        for i in range(1, 9):
-            walk_path = os.path.join(base_path, f"{i}.png")
+        # Cargar caminar (1.png a 10.png desde la carpeta caminar)
+        for i in range(1, 11):
+            walk_path = os.path.join(base_path, "caminar", f"{i}.png")
             if os.path.exists(walk_path):
                 img = pygame.image.load(walk_path).convert_alpha()
                 img = pygame.transform.scale(img, (48, 48))
