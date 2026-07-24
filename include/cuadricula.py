@@ -26,6 +26,7 @@ class Cuadricula:
                         try:
                             # Cargar la imagen original (el path es relativo a la ejecución del main script)
                             img = pygame.image.load(path).convert_alpha()
+                            img.set_colorkey((255, 255, 255)) # Quitar fondo blanco de los tiles
                             self.original_images[key] = img
                         except Exception as e:
                             print(f"[ERROR] No se pudo cargar la imagen {path}: {e}")
@@ -47,9 +48,12 @@ class Cuadricula:
         if self.num_x == 0: self.num_x = 1
         if self.num_y == 0: self.num_y = 1
         
-        # Escalar tiles automáticamente para encajar exacto en pantalla
-        self.tile_width = config.SCREEN_SIZE[0] // self.num_x
+        # El alto de la pantalla dicta el tamaño de los bloques (para que siempre sean cuadrados 64x64)
         self.tile_height = config.SCREEN_SIZE[1] // self.num_y
+        self.tile_width = self.tile_height # Los bloques siempre son cuadrados perfectos
+        
+        # num_x ahora solo sirve para definir "qué tan largo" es el nivel para la cámara, 
+        # pero ya no deforma los bloques.
         
         # Escalar las imágenes originales a este nuevo tamaño
         for key, img in self.original_images.items():
@@ -76,6 +80,7 @@ class Cuadricula:
         # Recalcular escala con el nuevo tamaño
         if self.num_y == 0: self.num_y = 1
         self.tile_height = config.SCREEN_SIZE[1] // self.num_y
+        self.tile_width = self.tile_height # Siempre cuadrados perfectos
         
         for key, img in self.original_images.items():
             self.tiles_images[key] = pygame.transform.scale(img, (self.tile_width, self.tile_height))

@@ -11,21 +11,34 @@
     },
     "1": {
       "Cuadricula":{
-        "num_x": 10,
+        "num_x": 15,
         "num_y": 7
       },
       "tiles": {
-        "0,6": "pasto",
-        "1,6": "pasto",
-        "2,6": "pasto",
-        "3,6": "pasto",
-        "4,6": "pasto",
-        "5,6": "pasto",
-        "6,6": "pasto",
-        "7,6": "pasto",
-        "8,6": "pasto",
+        "0,5": "pasto",
+        "1,5": "pasto",
+        "2,5": "pasto",
+        "3,5": "pasto",
+        "4,5": "pasto",
+        "5,5": "pasto",
+        "6,5": "pasto",
+        "7,5": "pasto",
+        "8,5": "pasto",
+        "9,5": "aire",
+        
+        "0,6": "tierra",
+        "1,6": "tierra",
+        "2,6": "tierra",
+        "3,6": "tierra",
+        "4,6": "tierra",
+        "5,6": "tierra",
+        "6,6": "tierra",
+        "7,6": "tierra",
+        "8,6": "tierra",
         "9,6": "aire",
-        "10, 6": "aire"
+
+        "10, 5": "aire",
+        "10, 0": "roca"
       }
     } 
   }

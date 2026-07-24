@@ -1,5 +1,6 @@
 {
     "aire": "",
     "pasto": "datos/imagenes/escenario/pasto.png",
-    "tierra": "datos/imagenes/escenario/tierra.png"
+    "tierra": "datos/imagenes/escenario/tierra.png",
+    "roca": "datos/imagenes/escenario/roca.png"
 }
