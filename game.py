@@ -1,58 +1,46 @@
 import pygame
-import sys
-from scripts.personajes import FisicasPersonaje
-from scripts.herramientas import cargar_imagen
+
+import config
+from config import SCREEN_SIZE, MAX_FPS
+import include.functions as functions
+from include.game_state import game_state
 
 # pygame setup
-class Game:
-    def __init__(self):
-        pygame.init()
+pygame.init()
+pygame.mixer.init()
+screen = pygame.display.set_mode(SCREEN_SIZE, pygame.RESIZABLE | pygame.SCALED)
+pygame.display.set_caption("Papas Chaza")
+clock = pygame.time.Clock()
+dt = 0
 
-        pygame.display.set_caption("Duck Game") # titulo del juego
+# Pre-cargar imágenes pesadas y comunes para evitar lag al cambiar de pantalla
+images_to_preload = [
+]
+functions.preloadAssets(images_to_preload)
 
-        self.screen = pygame.display.set_mode((640, 610)) #tamaño de la ventana
-        self.display = pygame.Surface((320, 305)) #superficie de dibujo
+# Pantalla de inicio / inicio del juego
+if game_state.pantalla_actual is None:
+    from include.screens.nivel1 import Nivel1
+    game_state.pantalla_actual = Nivel1(game_state)
+    game_state.pantalla_actual.enter(screen)
 
-        self.clock = pygame.time.Clock() #define el reloj para controlar los FPS
+#Loop principal
+while config.running:
+    
+    # Limpiar pantalla
+    screen.fill((0, 0, 0))
+    
+    # Actualizar y renderizar pantalla actual (tilemaps, sprites, etc)
+    if game_state.pantalla_actual and hasattr(game_state.pantalla_actual, 'update'):
+        game_state.pantalla_actual.update(dt, screen)
 
-        self.movement = [False, False] # [arriba, abajo, izquierda, derecha]
-       
-        self.player = FisicasPersonaje(self, 'player', (10, 152), (32, 32)) 
+    # flip() the display to put your work on screen
+    pygame.display.flip()
+    
+    # poll for events
+    functions.pollEvents()
+    
+    # dt is delta time in seconds since last frame
+    dt = clock.tick(MAX_FPS) / 1000
 
-        self.assets = {
-            'player': cargar_imagen('personajes/player/duck.png')
-        }
-    def run(self):
-        while True:
-            self.display.fill((14, 219, 248))
-
-            self.tilemap.render(self.display)       
-
-            self.player.update((self.movement[1] - self.movement[0], 0))
-            self.player.render(self.display)
-            
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_LEFT:
-                        self.movement[0] = True
-                    if event.key == pygame.K_RIGHT:
-                        self.movement[1] = True
-                    if event.key == pygame.K_UP:
-                        self.player.velocity[1] = -3
-                    if event.key == pygame.K_ESCAPE:
-                        pygame.quit()
-                        sys.exit()
-                if event.type == pygame.KEYUP:
-                    if event.key == pygame.K_LEFT:
-                        self.movement[0] = False
-                    if event.key == pygame.K_RIGHT:
-                        self.movement[1] = False
-
-            self.screen.blit(pygame.transform.scale(self.display, self.screen.get_size()),(0, 0))
-            pygame.display.update()
-            self.clock.tick(60) #limita los FPS a 60
-
-Game().run()
+pygame.quit()
