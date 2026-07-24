@@ -1,4 +1,5 @@
 {
     "aire": "",
-    "pasto": "datos/imagenes/escenario/pasto.png"
+    "pasto": "datos/imagenes/escenario/pasto.png",
+    "tierra": "datos/imagenes/escenario/tierra.png"
 }

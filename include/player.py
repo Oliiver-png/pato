@@ -107,8 +107,9 @@ class Player(pygame.sprite.Sprite):
                         self.rect.top = solid.bottom
                     self.velocity_y = 0
                     
-    def draw(self, screen):
-        screen.blit(self.image, self.rect)
+    def draw(self, screen, camera_x=0):
+        # Dibujarlo restando la cámara
+        screen.blit(self.image, (self.rect.x - camera_x, self.rect.y))
 
     def _update_animation(self, dt):
         if self.velocity_x != 0:

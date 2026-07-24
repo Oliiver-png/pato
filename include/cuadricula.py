@@ -91,14 +91,16 @@ class Cuadricula:
                 except ValueError:
                     pass
 
-    def render(self, screen):
-        """Dibuja todos los tiles en la pantalla"""
+    def render(self, screen, camera_x=0):
+        """Dibuja todos los tiles en la pantalla con el desplazamiento de la cámara"""
         for (x, y), tile_name in self.matriz_tiles.items():
             img = self.tiles_images.get(tile_name)
             if img:
-                pos_x = x * self.tile_width
+                pos_x = (x * self.tile_width) - camera_x
                 pos_y = y * self.tile_height
-                screen.blit(img, (pos_x, pos_y))
+                # Solo dibujar si está (al menos parcialmente) dentro de la pantalla
+                if pos_x + self.tile_width > 0 and pos_x < config.SCREEN_SIZE[0]:
+                    screen.blit(img, (pos_x, pos_y))
 
     def obtener_colisiones(self):
         """Devuelve una lista de pygame.Rect correspondientes a los tiles sólidos"""

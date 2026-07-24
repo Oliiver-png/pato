@@ -28,7 +28,7 @@ if game_state.pantalla_actual is None:
 while config.running:
     
     # Limpiar pantalla
-    screen.fill((0, 0, 0))
+    screen.fill((255, 255, 255))
     
     # Actualizar y renderizar pantalla actual (tilemaps, sprites, etc)
     if game_state.pantalla_actual and hasattr(game_state.pantalla_actual, 'update'):
