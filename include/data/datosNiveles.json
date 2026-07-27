@@ -1,45 +1,62 @@
 {
   "niveles": {
-    "menuButton" :{
-      "Cuadricula":{
-        "num_x":10,
+    "menuButton": {
+      "Cuadricula": {
+        "num_x": 10,
         "num_y": 2
       },
-      "tiles":{
-        
-      }
+      "tiles": {}
     },
     "1": {
-      "Cuadricula":{
-        "num_x": 15,
+      "Cuadricula": {
+        "num_x": 30,
         "num_y": 7
       },
       "tiles": {
         "0,5": "pasto",
-        "1,5": "pasto",
-        "2,5": "pasto",
-        "3,5": "pasto",
-        "4,5": "pasto",
-        "5,5": "pasto",
-        "6,5": "pasto",
-        "7,5": "pasto",
-        "8,5": "pasto",
-        "9,5": "aire",
-        
         "0,6": "tierra",
+        "1,5": "pasto",
         "1,6": "tierra",
+        "2,5": "pasto",
         "2,6": "tierra",
+        "3,5": "pasto",
         "3,6": "tierra",
+        "4,5": "pasto",
         "4,6": "tierra",
-        "5,6": "tierra",
-        "6,6": "tierra",
+        "7,5": "pasto",
         "7,6": "tierra",
+        "8,5": "pasto",
         "8,6": "tierra",
-        "9,6": "aire",
-
-        "10, 5": "aire",
-        "10, 0": "roca"
+        "9,5": "pasto",
+        "9,6": "tierra",
+        "10,5": "pasto",
+        "10,6": "tierra",
+        "11,3": "pasto",
+        "12,3": "pasto",
+        "13,3": "pasto",
+        "16,5": "pasto",
+        "16,6": "tierra",
+        "17,5": "pasto",
+        "17,6": "tierra",
+        "18,5": "pasto",
+        "18,6": "tierra",
+        "18,4": "roca",
+        "18,3": "roca",
+        "18,2": "roca",
+        "20,1": "pasto",
+        "22,2": "pasto",
+        "24,3": "pasto",
+        "25,5": "pasto",
+        "25,6": "tierra",
+        "26,5": "pasto",
+        "26,6": "tierra",
+        "27,5": "pasto",
+        "27,6": "tierra",
+        "28,5": "pasto",
+        "28,6": "tierra",
+        "29,5": "pasto",
+        "29,6": "tierra"
       }
-    } 
+    }
   }
 }
