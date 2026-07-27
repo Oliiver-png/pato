@@ -20,8 +20,8 @@ functions.preloadAssets(images_to_preload)
 
 # Pantalla de inicio / inicio del juego
 if game_state.pantalla_actual is None:
-    from include.screens.nivel1 import Nivel1
-    game_state.pantalla_actual = Nivel1(game_state)
+    from include.screens.main_menu import MainMenu
+    game_state.pantalla_actual = MainMenu(game_state)
     game_state.pantalla_actual.enter(screen)
 
 #Loop principal
