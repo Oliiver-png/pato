@@ -66,7 +66,7 @@ class Cuadricula:
         for coord_str, tile_name in tiles_raw.items():
             if tile_name == "aire":
                 continue
-            if tile_name in self.original_images:
+            if tile_name in self.original_images or tile_name == "meta":
                 try:
                     x, y = map(int, coord_str.split(','))
                     self.matriz_tiles[(x, y)] = tile_name
@@ -130,7 +130,18 @@ class Cuadricula:
         """
         rects = []
         for (x, y), tile_name in self.matriz_tiles.items():
-            pos_x = x * self.tile_width
-            pos_y = y * self.tile_height
-            rects.append(pygame.Rect(pos_x, pos_y, self.tile_width, self.tile_height))
+            if tile_name != "meta":
+                pos_x = x * self.tile_width
+                pos_y = y * self.tile_height
+                rects.append(pygame.Rect(pos_x, pos_y, self.tile_width, self.tile_height))
+        return rects
+        
+    def obtener_rects_por_tipo(self, tipo):
+        """Devuelve una lista de pygame.Rect para todos los tiles de un tipo específico."""
+        rects = []
+        for (x, y), tile_name in self.matriz_tiles.items():
+            if tile_name == tipo:
+                pos_x = x * self.tile_width
+                pos_y = y * self.tile_height
+                rects.append(pygame.Rect(pos_x, pos_y, self.tile_width, self.tile_height))
         return rects

@@ -77,11 +77,80 @@
         "36,5": "tierra", "36,6": "tierra", "36,4": "pasto",
         "37,5": "tierra", "37,6": "tierra", "37,4": "pasto",
         "38,5": "tierra", "38,6": "tierra", "38,4": "pasto",
-        "39,5": "tierra", "39,6": "tierra", "39,4": "pasto"
+        "39,5": "tierra", "39,6": "tierra", "39,4": "pasto",
+        "49,0": "meta", "48,1": "meta", "47,2": "meta"
       },
       "enemigos": [
         {"tipo": "gato", "x": 12, "y":4},
-        {"tipo": "gato", "x": 15, "y":4}
+        {"tipo": "gato", "x": 15, "y":4},
+        {"tipo": "gato", "x": 24, "y":2},
+        {"tipo": "gato", "x": 36, "y":3}
+      ]
+    },
+    "2": {
+      "Cuadricula": {
+        "num_x": 50,
+        "num_y": 7
+      },
+      "tiles": {
+        "0,6": "pasto",
+        "1,6": "pasto",
+        "2,6": "pasto",
+        "3,6": "pasto",
+        "4,6": "pasto",
+        "5,6": "pasto",
+        "6,6": "pasto",
+        "7,6": "pasto",
+        "8,6": "pasto",
+        "9,6": "pasto",
+        "10,6": "pasto",
+        "11,6": "pasto",
+        "12,6": "pasto",
+        "13,6": "pasto",
+        "14,6": "pasto",
+        "15,6": "pasto",
+        "16,6": "pasto",
+        "17,6": "pasto",
+        "18,6": "pasto",
+        "19,6": "pasto",
+        "20,6": "pasto",
+        "21,6": "roca", "21,5": "tierra", "21,4": "pasto",
+        "22,6": "roca", "22,5": "tierra", "22,4": "pasto",
+        "23,6": "roca", "23,5": "tierra", "23,4": "tierra", "23,3": "pasto",
+        "24,6": "roca", "24,5": "tierra", "24,4": "tierra", "24,3": "pasto",
+        "25,6": "roca", "25,5": "tierra", "25,4": "tierra", "25,3": "pasto",
+        "26,6": "roca", "26,5": "tierra", "26,4": "tierra", "26,3": "pasto",
+        "27,6": "roca", "27,5": "tierra", "27,4": "tierra", "27,3": "pasto",
+        "28,6": "roca", "28,5": "tierra", "28,4": "tierra", "28,3": "pasto",
+        "29,6": "roca", "29,5": "tierra", "29,4": "tierra", "29,3": "pasto",
+        "30,6": "roca", "30,5": "tierra", "30,4": "tierra", "30,3": "pasto",
+        "31,6": "pasto",
+        "32,6": "pasto",
+        "33,6": "pasto",
+        "34,6": "pasto",
+        "35,6": "pasto",
+        "36,6": "pasto",
+        "37,6": "pasto",
+        "38,6": "pasto",
+        "39,6": "pasto",
+        "40,6": "tierra", "40,5": "tierra", "40,4": "pasto",
+        "41,6": "tierra", "41,5": "tierra", "41,4": "pasto",
+        "42,6": "tierra", "42,5": "tierra", "42,4": "pasto", "42,3": "meta",
+        "43,6": "tierra", "43,5": "tierra", "43,4": "pasto", "43,3": "meta",
+        "44,6": "tierra", "44,5": "tierra", "44,4": "pasto", "44,3": "meta",
+        "45,6": "tierra", "45,5": "tierra", "45,4": "pasto",
+        "46,6": "tierra", "46,5": "tierra", "46,4": "pasto",
+        "47,6": "tierra", "47,5": "tierra", "47,4": "pasto",
+        "48,6": "tierra", "48,5": "tierra", "48,4": "pasto",
+        "49,6": "tierra", "49,5": "tierra", "49,4": "pasto"
+      },
+      "enemigos": [
+        {"tipo": "gato", "x": 12, "y":4},
+        {"tipo": "gato", "x": 15, "y":4},
+        {"tipo": "gato", "x": 23, "y":2},
+        {"tipo": "gato", "x": 28, "y":2},
+        {"tipo": "gato", "x": 42, "y":3},
+        {"tipo": "gato", "x": 46, "y":3}
       ]
     }
   }

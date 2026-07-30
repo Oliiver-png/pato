@@ -24,6 +24,24 @@ class BaseLevelScreen:
         """Hook para ser sobreescrito por las clases hijas (eventos iniciales)."""
         pass
         
+    def siguiente_nivel(self):
+        siguiente_id = str(int(self.level_id) + 1)
+        from include.niveles import obtenerNivelManager
+        import pygame
+        nivel_manager = obtenerNivelManager()
+        
+        if nivel_manager.obtenerNivel(siguiente_id):
+            print(f"Cargando el nivel {siguiente_id}...")
+            # Instanciar BaseLevelScreen genérico para los siguientes niveles
+            from include.screens.level_screen import BaseLevelScreen
+            self.game.pantalla_actual = BaseLevelScreen(self.game, level_id=siguiente_id)
+            self.game.pantalla_actual.enter(pygame.display.get_surface())
+        else:
+            print("¡Juego terminado! Volviendo al menú principal...")
+            from include.screens.main_menu import MainMenu
+            self.game.pantalla_actual = MainMenu(self.game)
+            self.game.pantalla_actual.enter(pygame.display.get_surface())
+        
     def custom_update(self, dt):
         """Hook para ser sobreescrito por las clases hijas (lógica cada frame)."""
         pass
@@ -104,6 +122,13 @@ class BaseLevelScreen:
             
             # Actualizar físicas y posición del jugador
             self.player.update(dt, colisiones, self.player_projectiles)
+            
+            # Chequear victoria/meta
+            meta_rects = self.cuadricula.obtener_rects_por_tipo("meta")
+            for m_rect in meta_rects:
+                if self.player.rect.colliderect(m_rect):
+                    self.siguiente_nivel()
+                    return # Salimos del update para no mezclar estados
             
             if self.invulnerable_timer > 0:
                 self.invulnerable_timer -= dt
