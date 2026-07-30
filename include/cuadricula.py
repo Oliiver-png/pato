@@ -9,6 +9,7 @@ class Cuadricula:
         self.tiles_images = {}
         self.nivel_data = None
         self.matriz_tiles = {}
+        self.matriz_fija = {}
         self.tile_width = 0
         self.tile_height = 0
         self.num_x = 0
@@ -92,7 +93,7 @@ class Cuadricula:
             if tile_name in self.original_images:
                 try:
                     x, y = map(int, coord_str.split(','))
-                    self.matriz_tiles[(x, y + offset_y)] = tile_name
+                    self.matriz_fija[(x, y + offset_y)] = tile_name
                 except ValueError:
                     pass
 
@@ -104,6 +105,14 @@ class Cuadricula:
                 pos_x = (x * self.tile_width) - camera_x
                 pos_y = y * self.tile_height
                 # Solo dibujar si está (al menos parcialmente) dentro de la pantalla
+                if pos_x + self.tile_width > 0 and pos_x < config.SCREEN_SIZE[0]:
+                    screen.blit(img, (pos_x, pos_y))
+
+        for (x, y), tile_name in self.matriz_fija.items():
+            img = self.tiles_images.get(tile_name)
+            if img:
+                pos_x = (x * self.tile_width)
+                pos_y = y * self.tile_height
                 if pos_x + self.tile_width > 0 and pos_x < config.SCREEN_SIZE[0]:
                     screen.blit(img, (pos_x, pos_y))
 
