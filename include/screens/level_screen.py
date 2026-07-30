@@ -18,6 +18,7 @@ class BaseLevelScreen:
         self.health = 100
         self.max_health = 100
         self.invulnerable_timer = 0
+        self.bg_image = None
         
     def custom_enter(self):
         """Hook para ser sobreescrito por las clases hijas (eventos iniciales)."""
@@ -50,6 +51,17 @@ class BaseLevelScreen:
             from include.gato import Gato
             self.enemies = []
             
+            # Cargar fondo
+            import os
+            import pygame
+            bg_path = os.path.join(os.path.dirname(__file__), "..", "..", "datos", "imagenes", "escenario", f"nivel {self.level_id}", f"nivel {self.level_id}.png")
+            if os.path.exists(bg_path):
+                img = pygame.image.load(bg_path).convert_alpha()
+                # Escalar para que el alto sea 448 y el ancho mantenga la proporción
+                ratio = 448 / img.get_height()
+                new_width = int(img.get_width() * ratio)
+                self.bg_image = pygame.transform.scale(img, (new_width, 448))
+                
             # Aparecer enemigos desde los datos del nivel (las coordenadas ahora están en tiles)
             for e_data in nivel.enemigos:
                 if e_data.get("tipo") == "gato":
@@ -163,6 +175,10 @@ class BaseLevelScreen:
 
         # Llamar al hook personalizado
         self.custom_update(dt)
+
+        # Dibujar fondo si existe
+        if self.bg_image:
+            screen.blit(self.bg_image, (-self.camera_x, 0))
 
         # Dibujar la cuadrícula del mundo restando la cámara
         self.cuadricula.render_world(screen, self.camera_x)
