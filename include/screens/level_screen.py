@@ -12,6 +12,7 @@ class BaseLevelScreen:
         self.player = None
         self.enemies = []
         self.projectiles = []
+        self.player_projectiles = []
         self.camera_x = 0
         self.score = 0
         self.health = 100
@@ -90,7 +91,7 @@ class BaseLevelScreen:
             colisiones = self.cuadricula.obtener_colisiones()
             
             # Actualizar físicas y posición del jugador
-            self.player.update(dt, colisiones)
+            self.player.update(dt, colisiones, self.player_projectiles)
             
             if self.invulnerable_timer > 0:
                 self.invulnerable_timer -= dt
@@ -143,6 +144,22 @@ class BaseLevelScreen:
                     
                 if proj.is_dead:
                     self.projectiles.remove(proj)
+                    
+            # Actualizar proyectiles del jugador
+            for proj in self.player_projectiles[:]:
+                proj.update(dt, colisiones)
+                
+                # Chequear colisión con enemigos
+                if not proj.is_dead:
+                    for enemy in self.enemies:
+                        if not enemy.is_dead and proj.rect.colliderect(enemy.rect):
+                            enemy.is_dead = True
+                            self.score += 100
+                            proj.is_dead = True
+                            break
+                            
+                if proj.is_dead:
+                    self.player_projectiles.remove(proj)
 
         # Llamar al hook personalizado
         self.custom_update(dt)
@@ -156,6 +173,10 @@ class BaseLevelScreen:
             
         # Dibujar proyectiles
         for proj in self.projectiles:
+            proj.draw(screen, self.camera_x)
+            
+        # Dibujar proyectiles del jugador
+        for proj in self.player_projectiles:
             proj.draw(screen, self.camera_x)
             
         # Dibujar al jugador restando la cámara

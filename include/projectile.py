@@ -2,11 +2,10 @@ import pygame
 import os
 
 class Projectile(pygame.sprite.Sprite):
-    def __init__(self, x, y, velocity_x, velocity_y):
+    def __init__(self, x, y, velocity_x, velocity_y, image_path, gravity=900):
         super().__init__()
         
         # Cargar imagen
-        image_path = os.path.join(os.path.dirname(__file__), "..", "datos", "imagenes", "personajes", "gatos", "gatos_disparo.png")
         if os.path.exists(image_path):
             self.image = pygame.image.load(image_path).convert_alpha()
             # Escalar a un tamaño adecuado para un proyectil
@@ -16,13 +15,13 @@ class Projectile(pygame.sprite.Sprite):
             self.image = pygame.Surface((20, 20))
             self.image.fill((255, 255, 0))
             
-        # Lo creamos desde el centro para que salga desde el centro del gato
+        # Lo creamos desde el centro para que salga desde el centro del personaje
         self.rect = self.image.get_rect(center=(x, y))
         
         # Físicas
         self.velocity_x = velocity_x
         self.velocity_y = velocity_y
-        self.gravity = 900 # Gravedad (parábola)
+        self.gravity = gravity
         self.max_fall_speed = 600
         
         self.is_dead = False

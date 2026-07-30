@@ -31,6 +31,7 @@ class Player(pygame.sprite.Sprite):
         self.on_ground = False
         self.jump_key_was_pressed = False
         self.knockback_timer = 0
+        self.shoot_cooldown = 0
         
     def load_animations(self):
         base_path = os.path.join(os.path.dirname(__file__), "..", "datos", "imagenes", "personajes", "player")
@@ -72,7 +73,10 @@ class Player(pygame.sprite.Sprite):
         if not self.animations['fly']:
             self.animations['fly'] = self.animations['idle']
 
-    def update(self, dt, solid_rects):
+    def update(self, dt, solid_rects, player_projectiles=None):
+        if getattr(self, 'shoot_cooldown', 0) > 0:
+            self.shoot_cooldown -= dt
+            
         if getattr(self, 'knockback_timer', 0) > 0:
             self.knockback_timer -= dt
             # Decelerar el knockback horizontal (fricción)
@@ -81,7 +85,7 @@ class Player(pygame.sprite.Sprite):
             elif self.velocity_x < 0:
                 self.velocity_x = min(0, self.velocity_x + 1500 * dt)
         else:
-            self._handle_input()
+            self._handle_input(player_projectiles)
             
         self._apply_physics(dt, solid_rects)
         self._update_animation(dt)
@@ -91,8 +95,20 @@ class Player(pygame.sprite.Sprite):
         self.velocity_x = force_x
         self.velocity_y = force_y
         
-    def _handle_input(self):
+    def _handle_input(self, player_projectiles=None):
         keys = pygame.key.get_pressed()
+        
+        # Disparo
+        if keys[pygame.K_x] and getattr(self, 'shoot_cooldown', 0) <= 0 and player_projectiles is not None:
+            self.shoot_cooldown = 0.5 # medio segundo de cooldown
+            from include.projectile import Projectile
+            import os
+            image_path = os.path.join(os.path.dirname(__file__), "..", "datos", "imagenes", "personajes", "player", "pato_disparo.png")
+            # Proyectil parabólico: avanza horizontalmente y cae con gravedad
+            vx = 400 if self.facing_right else -400
+            vy = -300 
+            proj = Projectile(self.rect.centerx, self.rect.centery, vx, vy, image_path, gravity=800)
+            player_projectiles.append(proj)
         
         # Movimiento horizontal
         self.velocity_x = 0

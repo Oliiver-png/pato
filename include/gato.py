@@ -65,7 +65,9 @@ class Gato(pygame.sprite.Sprite):
                     vx = -250
                     
                 vy = -400
-                proj = Projectile(self.rect.centerx, self.rect.centery, vx, vy)
+                import os
+                image_path = os.path.join(os.path.dirname(__file__), "..", "datos", "imagenes", "personajes", "gatos", "gatos_disparo.png")
+                proj = Projectile(self.rect.centerx, self.rect.centery, vx, vy, image_path, gravity=900)
                 projectiles_list.append(proj)
         
     def _apply_physics(self, dt, solid_rects):
