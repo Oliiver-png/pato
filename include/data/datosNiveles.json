@@ -69,10 +69,10 @@
         "27,5": "roca", "27,6": "tierra",
         "28,5": "roca", "28,6": "tierra",
 
-        "31,5": "roca", "31,6": "tierra", "31,4": "pasto",
-        "32,5": "roca", "32,6": "tierra", "32,4": "pasto",
-        "33,5": "roca", "33,6": "tierra", "33,4": "pasto",
-        "34,5": "roca", "34,6": "tierra", "34,4": "pasto"
+        "31,5": "tierra", "31,6": "tierra", "31,4": "pasto",
+        "32,5": "tierra", "32,6": "tierra", "32,4": "pasto",
+        "33,5": "tierra", "33,6": "tierra", "33,4": "pasto",
+        "34,5": "tierra", "34,6": "tierra", "34,4": "pasto"
         
       },
       "enemigos": [
