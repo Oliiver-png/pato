@@ -36,7 +36,7 @@
     },
     "1": {
       "Cuadricula": {
-        "num_x": 35,
+        "num_x": 50,
         "num_y": 7
       },
       "tiles": {
@@ -53,27 +53,31 @@
         "10,6": "tierra", "10,5": "pasto",
         "11,6": "tierra", "11,5": "pasto",
         "12,6": "tierra", "12,5": "pasto",
-        "13,6": "tierra", "13,5": "pasto",
-        "14,6": "tierra", "14,5": "tierra", "14,4" : "roca", "14,3": "roca",
+        "13,6": "tierra", "13,5": "tierra", "13,4" : "roca", "13,3": "roca", "13,2": "roca",
+        "14,6": "tierra", "14,5": "tierra", "14,4" : "roca", "14,3": "roca", "14,2": "roca",
         "15,6": "tierra", "15,5": "pasto",
         "16,6": "tierra", "16,5": "pasto",
         "17,6": "tierra", "17,5": "pasto",
         "18,5": "pasto", "18,6": "tierra",
-        "19,6": "pasto",
-        "20,6": "pasto",
+        "19,5": "pasto", "19,6": "tierra",
+        "20,5": "pasto", "20,6": "tierra",
         "21,6": "pasto",
-        "22,5": "pasto", "22,6": "tierra",
-        "23,5": "pasto", "23,6": "tierra",
-        "24,5": "tierra", "24,6": "tierra", "24, 4": "roca",
+        "22,6": "pasto",
+        "23,6": "pasto",
+        "24,5": "pasto", "24,6": "tierra",
+        "25,5": "pasto", "25,6": "tierra",
+        "26,5": "pasto", "26,6": "tierra",
+        "27,5": "pasto", "27,6": "tierra", "27, 4": "roca",
         
-        "27,5": "roca", "27,6": "tierra",
-        "28,5": "roca", "28,6": "tierra",
+        "30,5": "roca", "30,6": "tierra",
+        "31,5": "roca", "31,6": "tierra",
 
-        "31,5": "tierra", "31,6": "tierra", "31,4": "pasto",
-        "32,5": "tierra", "32,6": "tierra", "32,4": "pasto",
-        "33,5": "tierra", "33,6": "tierra", "33,4": "pasto",
-        "34,5": "tierra", "34,6": "tierra", "34,4": "pasto"
-        
+        "34,5": "tierra", "34,6": "tierra", "34,4": "pasto",
+        "35,5": "tierra", "35,6": "tierra", "35,4": "pasto",
+        "36,5": "tierra", "36,6": "tierra", "36,4": "pasto",
+        "37,5": "tierra", "37,6": "tierra", "37,4": "pasto",
+        "38,5": "tierra", "38,6": "tierra", "38,4": "pasto",
+        "39,5": "tierra", "39,6": "tierra", "39,4": "pasto"
       },
       "enemigos": [
         {"tipo": "gato", "x": 6, "y": 1},
