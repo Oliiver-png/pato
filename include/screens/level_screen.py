@@ -98,7 +98,7 @@ class BaseLevelScreen:
             # Actualizar enemigos y verificar colisión
             for enemy in self.enemies:
                 if not enemy.is_dead:
-                    enemy.update(dt, colisiones, self.projectiles)
+                    enemy.update(dt, colisiones, self.projectiles, self.player)
                     
                     if self.player.rect.colliderect(enemy.rect):
                         # Si el jugador está cayendo (velocity_y > 0) y su parte inferior 

@@ -44,7 +44,7 @@ class Gato(pygame.sprite.Sprite):
                 img.set_colorkey((255, 255, 255))
                 self.animations.append(img)
                 
-    def update(self, dt, solid_rects, projectiles_list=None):
+    def update(self, dt, solid_rects, projectiles_list=None, player=None):
         if self.is_dead:
             return
             
@@ -52,12 +52,18 @@ class Gato(pygame.sprite.Sprite):
         self._update_animation(dt)
         
         # Lógica de disparo
-        if projectiles_list is not None:
+        if projectiles_list is not None and player is not None:
             self.shoot_timer += dt
             if self.shoot_timer >= 3.0:
                 self.shoot_timer = 0
                 from include.projectile import Projectile
-                vx = 250 if self.facing_right else -250
+                
+                # Calcular dirección hacia el jugador
+                if player.rect.centerx > self.rect.centerx:
+                    vx = 250
+                else:
+                    vx = -250
+                    
                 vy = -400
                 proj = Projectile(self.rect.centerx, self.rect.centery, vx, vy)
                 projectiles_list.append(proj)
