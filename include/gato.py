@@ -30,6 +30,7 @@ class Gato(pygame.sprite.Sprite):
         
         self.on_ground = False
         self.is_dead = False
+        self.shoot_timer = 0
 
     def load_animations(self):
         base_path = os.path.join(os.path.dirname(__file__), "..", "datos", "imagenes", "personajes", "gatos", "caminar")
@@ -43,12 +44,23 @@ class Gato(pygame.sprite.Sprite):
                 img.set_colorkey((255, 255, 255))
                 self.animations.append(img)
                 
-    def update(self, dt, solid_rects):
+    def update(self, dt, solid_rects, projectiles_list=None):
         if self.is_dead:
             return
             
         self._apply_physics(dt, solid_rects)
         self._update_animation(dt)
+        
+        # Lógica de disparo
+        if projectiles_list is not None:
+            self.shoot_timer += dt
+            if self.shoot_timer >= 3.0:
+                self.shoot_timer = 0
+                from include.projectile import Projectile
+                vx = 250 if self.facing_right else -250
+                vy = -400
+                proj = Projectile(self.rect.centerx, self.rect.centery, vx, vy)
+                projectiles_list.append(proj)
         
     def _apply_physics(self, dt, solid_rects):
         # Aplicar gravedad
@@ -68,6 +80,28 @@ class Gato(pygame.sprite.Sprite):
         self.rect.y += move_y
         self.on_ground = False
         self._check_collisions(solid_rects, "y")
+        
+        # Evitar caer por precipicios (girar si no hay piso adelante)
+        if self.on_ground:
+            # Crear un pequeño rectángulo justo enfrente y un poco debajo del gato
+            if self.velocity_x > 0:
+                check_rect = pygame.Rect(self.rect.right, self.rect.bottom, 2, 4)
+            else:
+                check_rect = pygame.Rect(self.rect.left - 2, self.rect.bottom, 2, 4)
+                
+            has_ground = False
+            for solid in solid_rects:
+                if solid.colliderect(check_rect):
+                    has_ground = True
+                    break
+                    
+            if not has_ground:
+                self.velocity_x *= -1
+                # Pequeña compensación visual
+                if self.velocity_x > 0:
+                    self.rect.x += 2
+                else:
+                    self.rect.x -= 2
         
         # Actualizar dirección de mirada según velocidad
         if self.velocity_x > 0:

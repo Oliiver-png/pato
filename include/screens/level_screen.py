@@ -11,6 +11,7 @@ class BaseLevelScreen:
         self.cuadricula = Cuadricula()
         self.player = None
         self.enemies = []
+        self.projectiles = []
         self.camera_x = 0
         self.score = 0
         self.health = 100
@@ -97,7 +98,7 @@ class BaseLevelScreen:
             # Actualizar enemigos y verificar colisión
             for enemy in self.enemies:
                 if not enemy.is_dead:
-                    enemy.update(dt, colisiones)
+                    enemy.update(dt, colisiones, self.projectiles)
                     
                     if self.player.rect.colliderect(enemy.rect):
                         # Si el jugador está cayendo (velocity_y > 0) y su parte inferior 
@@ -122,6 +123,26 @@ class BaseLevelScreen:
                             if self.health < 0:
                                 self.health = 0
                                 # Más adelante podemos poner que vuelva a empezar el nivel
+                                
+            # Actualizar proyectiles
+            for proj in self.projectiles[:]:
+                proj.update(dt, colisiones)
+                
+                # Chequear colisión con jugador
+                if not proj.is_dead and self.player and self.player.rect.colliderect(proj.rect):
+                    if self.invulnerable_timer <= 0:
+                        self.health -= 15
+                        self.invulnerable_timer = 1.5
+                        if self.player.rect.centerx < proj.rect.centerx:
+                            self.player.apply_knockback(-300, -200)
+                        else:
+                            self.player.apply_knockback(300, -200)
+                        if self.health < 0:
+                            self.health = 0
+                    proj.is_dead = True
+                    
+                if proj.is_dead:
+                    self.projectiles.remove(proj)
 
         # Llamar al hook personalizado
         self.custom_update(dt)
@@ -132,6 +153,10 @@ class BaseLevelScreen:
         # Dibujar enemigos
         for enemy in self.enemies:
             enemy.draw(screen, self.camera_x)
+            
+        # Dibujar proyectiles
+        for proj in self.projectiles:
+            proj.draw(screen, self.camera_x)
             
         # Dibujar al jugador restando la cámara
         if self.player:
