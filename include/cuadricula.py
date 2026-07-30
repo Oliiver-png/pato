@@ -8,8 +8,8 @@ class Cuadricula:
         self.original_images = {}
         self.tiles_images = {}
         self.nivel_data = None
-        self.matriz_tiles = {}
-        self.matriz_fija = {}
+        self.matriz_tiles = {} # Almacena los tiles del mundo (se mueven con la cámara)
+        self.matriz_fija = {}  # Almacena los tiles de UI del menú inferior (fijos en pantalla)
         self.tile_width = 0
         self.tile_height = 0
         self.num_x = 0
@@ -74,7 +74,11 @@ class Cuadricula:
                     pass
 
     def appendBottomLevel(self, level_data):
-        """Añade otro nivel en la parte inferior de la cuadrícula actual (ej. para un menú inferior)."""
+        """
+        Añade otro nivel en la parte inferior de la cuadrícula actual (ej. para un menú inferior).
+        Los tiles de este nivel se añaden a matriz_fija, por lo que no se moverán con la cámara
+        ni tendrán colisiones en el mundo del juego.
+        """
         offset_y = self.num_y
         self.num_y += level_data.get("Cuadricula", {}).get("num_y", 0)
         
@@ -93,12 +97,13 @@ class Cuadricula:
             if tile_name in self.original_images:
                 try:
                     x, y = map(int, coord_str.split(','))
+                    # Guardamos en matriz_fija para que actúen como UI superpuesta
                     self.matriz_fija[(x, y + offset_y)] = tile_name
                 except ValueError:
                     pass
 
-    def render(self, screen, camera_x=0):
-        """Dibuja todos los tiles en la pantalla con el desplazamiento de la cámara"""
+    def render_world(self, screen, camera_x=0):
+        """Dibuja los tiles del mundo."""
         for (x, y), tile_name in self.matriz_tiles.items():
             img = self.tiles_images.get(tile_name)
             if img:
@@ -108,6 +113,8 @@ class Cuadricula:
                 if pos_x + self.tile_width > 0 and pos_x < config.SCREEN_SIZE[0]:
                     screen.blit(img, (pos_x, pos_y))
 
+    def render_ui(self, screen):
+        """Dibuja los tiles de la interfaz gráfica (UI)."""
         for (x, y), tile_name in self.matriz_fija.items():
             img = self.tiles_images.get(tile_name)
             if img:
@@ -117,7 +124,10 @@ class Cuadricula:
                     screen.blit(img, (pos_x, pos_y))
 
     def obtener_colisiones(self):
-        """Devuelve una lista de pygame.Rect correspondientes a los tiles sólidos"""
+        """
+        Devuelve una lista de pygame.Rect correspondientes a los tiles sólidos.
+        Solo se toman en cuenta los tiles del mundo (matriz_tiles) para evitar chocar con la UI.
+        """
         rects = []
         for (x, y), tile_name in self.matriz_tiles.items():
             pos_x = x * self.tile_width

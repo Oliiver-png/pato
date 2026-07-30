@@ -30,6 +30,7 @@ class Player(pygame.sprite.Sprite):
         
         self.on_ground = False
         self.jump_key_was_pressed = False
+        self.knockback_timer = 0
         
     def load_animations(self):
         base_path = os.path.join(os.path.dirname(__file__), "..", "datos", "imagenes", "personajes", "player")
@@ -72,9 +73,23 @@ class Player(pygame.sprite.Sprite):
             self.animations['fly'] = self.animations['idle']
 
     def update(self, dt, solid_rects):
-        self._handle_input()
+        if getattr(self, 'knockback_timer', 0) > 0:
+            self.knockback_timer -= dt
+            # Decelerar el knockback horizontal (fricción)
+            if self.velocity_x > 0:
+                self.velocity_x = max(0, self.velocity_x - 1500 * dt)
+            elif self.velocity_x < 0:
+                self.velocity_x = min(0, self.velocity_x + 1500 * dt)
+        else:
+            self._handle_input()
+            
         self._apply_physics(dt, solid_rects)
         self._update_animation(dt)
+        
+    def apply_knockback(self, force_x, force_y):
+        self.knockback_timer = 0.3
+        self.velocity_x = force_x
+        self.velocity_y = force_y
         
     def _handle_input(self):
         keys = pygame.key.get_pressed()

@@ -22,6 +22,9 @@ class Nivel:
         # Parsear tiles
         self.tiles = data.get("tiles", {})
         
+        # Parsear enemigos
+        self.enemigos = data.get("enemigos", [])
+        
     def __repr__(self):
         return f"Nivel({self.id}, {self.num_x}x{self.num_y})"
     
@@ -33,7 +36,8 @@ class Nivel:
                 "num_x": self.num_x,
                 "num_y": self.num_y
             },
-            "tiles": self.tiles
+            "tiles": self.tiles,
+            "enemigos": self.enemigos
         }
 
 class NivelManager:
