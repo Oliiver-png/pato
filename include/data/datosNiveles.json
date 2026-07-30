@@ -80,8 +80,8 @@
         "39,5": "tierra", "39,6": "tierra", "39,4": "pasto"
       },
       "enemigos": [
-        {"tipo": "gato", "x": 6, "y": 1},
-        {"tipo": "gato", "x": 12, "y": 1}
+        {"tipo": "gato", "x": 12, "y":4},
+        {"tipo": "gato", "x": 15, "y":4}
       ]
     }
   }
