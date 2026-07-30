@@ -52,6 +52,6 @@ class Projectile(pygame.sprite.Sprite):
                 return True
         return False
         
-    def draw(self, screen, camera_x=0):
+    def draw(self, screen, camera_x=0, camera_y=0):
         if not self.is_dead:
-            screen.blit(self.image, (self.rect.x - camera_x, self.rect.y))
+            screen.blit(self.image, (self.rect.x - camera_x, self.rect.y - camera_y))

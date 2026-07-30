@@ -14,6 +14,7 @@ class BaseLevelScreen:
         self.projectiles = []
         self.player_projectiles = []
         self.camera_x = 0
+        self.camera_y = 0
         self.score = 0
         self.health = 100
         self.max_health = 100
@@ -63,8 +64,11 @@ class BaseLevelScreen:
                 
             print(f"[Level {self.level_id}] Nivel cargado exitosamente con {len(self.cuadricula.matriz_tiles)} tiles.")
             
-            # Spawnear al jugador (posición x=100, y=100)
-            self.player = Player(100, 100)
+            # Spawnear al jugador (basado en tiles)
+            spawn_data = nivel.aDict().get("spawn", {"x": 1, "y": 1})
+            spawn_x = spawn_data.get("x", 1) * self.cuadricula.tile_width
+            spawn_y = spawn_data.get("y", 1) * self.cuadricula.tile_height
+            self.player = Player(spawn_x, spawn_y)
             
             from include.gato import Gato
             self.enemies = []
@@ -75,10 +79,17 @@ class BaseLevelScreen:
             bg_path = os.path.join(os.path.dirname(__file__), "..", "..", "datos", "imagenes", "escenario", f"nivel {self.level_id}", f"nivel {self.level_id}.png")
             if os.path.exists(bg_path):
                 img = pygame.image.load(bg_path).convert_alpha()
-                # Escalar para que el alto sea 448 y el ancho mantenga la proporción
-                ratio = 448 / img.get_height()
+                # Escalar inteligentemente según si el nivel es vertical u horizontal
+                if self.cuadricula.num_y > 7:
+                    # Nivel vertical: escalamos para que cubra el ancho de la pantalla
+                    ratio = 640 / img.get_width()
+                else:
+                    # Nivel horizontal: escalamos para que cubra el alto visible
+                    ratio = 448 / img.get_height()
+                    
                 new_width = int(img.get_width() * ratio)
-                self.bg_image = pygame.transform.scale(img, (new_width, 448))
+                new_height = int(img.get_height() * ratio)
+                self.bg_image = pygame.transform.scale(img, (new_width, new_height))
                 
             # Aparecer enemigos desde los datos del nivel (las coordenadas ahora están en tiles)
             for e_data in nivel.enemigos:
@@ -114,8 +125,21 @@ class BaseLevelScreen:
             if target_camera_x > max_camera_x:
                 target_camera_x = max_camera_x
                 
-            # Movimiento suave de cámara (lerp) o asignación directa
             self.camera_x = target_camera_x
+            
+            # Calcular target_camera_y (centrado en el jugador verticalmente)
+            target_camera_y = self.player.rect.y - (config.SCREEN_SIZE[1] / 2)
+            
+            if target_camera_y < 0:
+                target_camera_y = 0
+                
+            max_camera_y = (self.cuadricula.num_y * self.cuadricula.tile_height) - config.SCREEN_SIZE[1]
+            if max_camera_y < 0:
+                max_camera_y = 0
+            if target_camera_y > max_camera_y:
+                target_camera_y = max_camera_y
+                
+            self.camera_y = target_camera_y
             
             # Obtener colisiones del escenario (las coordenadas reales no cambian)
             colisiones = self.cuadricula.obtener_colisiones()
@@ -203,26 +227,26 @@ class BaseLevelScreen:
 
         # Dibujar fondo si existe
         if self.bg_image:
-            screen.blit(self.bg_image, (-self.camera_x, 0))
+            screen.blit(self.bg_image, (-self.camera_x, -self.camera_y))
 
         # Dibujar la cuadrícula del mundo restando la cámara
-        self.cuadricula.render_world(screen, self.camera_x)
+        self.cuadricula.render_world(screen, self.camera_x, self.camera_y)
         
         # Dibujar enemigos
         for enemy in self.enemies:
-            enemy.draw(screen, self.camera_x)
+            enemy.draw(screen, self.camera_x, self.camera_y)
             
         # Dibujar proyectiles
         for proj in self.projectiles:
-            proj.draw(screen, self.camera_x)
+            proj.draw(screen, self.camera_x, self.camera_y)
             
         # Dibujar proyectiles del jugador
         for proj in self.player_projectiles:
-            proj.draw(screen, self.camera_x)
+            proj.draw(screen, self.camera_x, self.camera_y)
             
         # Dibujar al jugador restando la cámara
         if self.player:
-            self.player.draw(screen, self.camera_x)
+            self.player.draw(screen, self.camera_x, self.camera_y)
             
         # Dibujar la barra de vida DETRÁS de la UI
         self.draw_health_bar(screen)

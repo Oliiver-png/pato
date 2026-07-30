@@ -25,6 +25,9 @@ class Nivel:
         # Parsear enemigos
         self.enemigos = data.get("enemigos", [])
         
+        # Parsear spawn
+        self.spawn = data.get("spawn", {"x": 1, "y": 1})
+        
     def __repr__(self):
         return f"Nivel({self.id}, {self.num_x}x{self.num_y})"
     
@@ -32,6 +35,7 @@ class Nivel:
         """Convierte el nivel a diccionario"""
         return {
             "id": self.id,
+            "spawn": self.spawn,
             "Cuadricula": {
                 "num_x": self.num_x,
                 "num_y": self.num_y

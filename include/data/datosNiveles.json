@@ -35,6 +35,7 @@
       }
     },
     "1": {
+      "spawn": {"x": 1, "y": 2},
       "Cuadricula": {
         "num_x": 50,
         "num_y": 7
@@ -88,6 +89,7 @@
       ]
     },
     "2": {
+      "spawn": {"x": 1, "y": 2},
       "Cuadricula": {
         "num_x": 50,
         "num_y": 7
@@ -151,6 +153,38 @@
         {"tipo": "gato", "x": 28, "y":2},
         {"tipo": "gato", "x": 42, "y":3},
         {"tipo": "gato", "x": 46, "y":3}
+      ]
+    },
+    "3": {
+      "spawn": {"x": 1, "y": 35},
+      "Cuadricula": {
+        "num_x": 9,
+        "num_y": 38
+      },
+      "tiles": {
+        "0,36": "pasto", "0,26": "roca", "0,25": "roca","0,24": "roca","0,23": "roca","0,22": "roca", "0,21": "roca","0,20": "roca","0,19": "roca","0,18": "roca", "0,15": "roca", "0, 11": "roca","0,10": "roca", "0,6": "roca","0,4": "roca",
+        "1,36": "pasto", "1,26": "roca", "1,20": "roca","1,15": "roca","1, 11": "roca","1,10": "roca","1,6": "roca","1,4": "roca",
+        "2,36": "pasto", "2,26": "roca", "2,20": "roca","2,15": "roca","2, 11": "roca","2,10": "roca","2,4": "roca",
+        "3,36": "pasto",                 "3,15": "roca", "3, 11": "roca","3,10": "roca","3,4": "roca",
+        "4,36": "pasto",                 "4,15": "roca", "4, 11": "roca", "4,10": "roca","4,4": "roca",
+        "5,36": "pasto", "5,20": "roca", "5,15": "roca", "5, 11": "roca","5,6": "roca",
+        "6,36": "pasto", "6,20": "roca", "6, 11": "roca","6,6": "roca","6,4": "roca",
+        "7,36": "pasto", "7,20": "roca", "7, 11": "roca","7,6": "roca","7,4": "roca", "7,0": "meta",
+        "8,36": "pasto", "8,20": "roca", "8,15": "roca", "8,6": "roca","8,4": "roca",  "8,0": "meta",
+        "9,36": "pasto", "9,20": "roca", "9,15": "roca", "9,6": "roca","9,4": "roca", "9,0": "meta"
+      },
+      "enemigos": [
+        {"tipo": "gato", "x": 8, "y": 35},
+        {"tipo": "gato", "x": 1, "y": 25},
+        {"tipo": "gato", "x": 1, "y": 19},
+        {"tipo": "gato", "x": 7, "y": 19},
+        {"tipo": "gato", "x": 2, "y": 14},
+        {"tipo": "gato", "x": 8, "y": 14},
+        {"tipo": "gato", "x": 1, "y": 10},
+        {"tipo": "gato", "x": 6, "y": 10},
+        {"tipo": "gato", "x": 0, "y": 5},
+        {"tipo": "gato", "x": 8, "y": 5},
+        {"tipo": "gato", "x": 3, "y": 3}
       ]
     }
   }

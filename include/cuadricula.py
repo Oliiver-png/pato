@@ -49,12 +49,11 @@ class Cuadricula:
         if self.num_x == 0: self.num_x = 1
         if self.num_y == 0: self.num_y = 1
         
-        # El alto de la pantalla dicta el tamaño de los bloques (para que siempre sean cuadrados 64x64)
-        self.tile_height = config.SCREEN_SIZE[1] // self.num_y
-        self.tile_width = self.tile_height # Los bloques siempre son cuadrados perfectos
+        # El tamaño de los bloques es fijo a 64x64 para permitir niveles verticales
+        self.tile_height = 64
+        self.tile_width = 64
         
-        # num_x ahora solo sirve para definir "qué tan largo" es el nivel para la cámara, 
-        # pero ya no deforma los bloques.
+        # num_x y num_y ahora solo sirven para definir "qué tan largo y alto" es el nivel para la cámara
         
         # Escalar las imágenes originales a este nuevo tamaño
         for key, img in self.original_images.items():
@@ -79,13 +78,13 @@ class Cuadricula:
         Los tiles de este nivel se añaden a matriz_fija, por lo que no se moverán con la cámara
         ni tendrán colisiones en el mundo del juego.
         """
-        offset_y = self.num_y
-        self.num_y += level_data.get("Cuadricula", {}).get("num_y", 0)
+        menu_num_y = level_data.get("Cuadricula", {}).get("num_y", 0)
+        pantalla_tiles_y = config.SCREEN_SIZE[1] // 64
+        offset_y = pantalla_tiles_y - menu_num_y
         
-        # Recalcular escala con el nuevo tamaño
-        if self.num_y == 0: self.num_y = 1
-        self.tile_height = config.SCREEN_SIZE[1] // self.num_y
-        self.tile_width = self.tile_height # Siempre cuadrados perfectos
+        # Asegurarnos de que el tamaño sea 64
+        self.tile_height = 64
+        self.tile_width = 64
         
         for key, img in self.original_images.items():
             self.tiles_images[key] = pygame.transform.scale(img, (self.tile_width, self.tile_height))
@@ -102,15 +101,15 @@ class Cuadricula:
                 except ValueError:
                     pass
 
-    def render_world(self, screen, camera_x=0):
+    def render_world(self, screen, camera_x=0, camera_y=0):
         """Dibuja los tiles del mundo."""
         for (x, y), tile_name in self.matriz_tiles.items():
             img = self.tiles_images.get(tile_name)
             if img:
                 pos_x = (x * self.tile_width) - camera_x
-                pos_y = y * self.tile_height
+                pos_y = (y * self.tile_height) - camera_y
                 # Solo dibujar si está (al menos parcialmente) dentro de la pantalla
-                if pos_x + self.tile_width > 0 and pos_x < config.SCREEN_SIZE[0]:
+                if pos_x + self.tile_width > 0 and pos_x < config.SCREEN_SIZE[0] and pos_y + self.tile_height > 0 and pos_y < config.SCREEN_SIZE[1]:
                     screen.blit(img, (pos_x, pos_y))
 
     def render_ui(self, screen):
