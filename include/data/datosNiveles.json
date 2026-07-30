@@ -83,7 +83,11 @@
         "28,6": "tierra",
         "29,5": "pasto",
         "29,6": "tierra"
-      }
+      },
+      "enemigos": [
+        {"tipo": "gato", "x": 6, "y": 1},
+        {"tipo": "gato", "x": 12, "y": 1}
+      ]
     }
   }
 }

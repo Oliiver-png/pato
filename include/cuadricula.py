@@ -102,10 +102,8 @@ class Cuadricula:
                 except ValueError:
                     pass
 
-    def render(self, screen, camera_x=0):
-        """Dibuja todos los tiles en la pantalla."""
-        
-        # 1. Dibujar tiles del mundo (se les resta camera_x para simular movimiento)
+    def render_world(self, screen, camera_x=0):
+        """Dibuja los tiles del mundo."""
         for (x, y), tile_name in self.matriz_tiles.items():
             img = self.tiles_images.get(tile_name)
             if img:
@@ -115,7 +113,8 @@ class Cuadricula:
                 if pos_x + self.tile_width > 0 and pos_x < config.SCREEN_SIZE[0]:
                     screen.blit(img, (pos_x, pos_y))
 
-        # 2. Dibujar tiles de la interfaz gráfica (UI) ignorando camera_x
+    def render_ui(self, screen):
+        """Dibuja los tiles de la interfaz gráfica (UI)."""
         for (x, y), tile_name in self.matriz_fija.items():
             img = self.tiles_images.get(tile_name)
             if img:
